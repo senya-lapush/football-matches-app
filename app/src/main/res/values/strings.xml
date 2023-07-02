@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Football Matches</string>
+    <string name="match_score">%s - %s</string>
 </resources>

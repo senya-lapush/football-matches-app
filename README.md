@@ -17,12 +17,12 @@ Project is created with:
 ## Screenshots
 * Splash Screen
 
-<img src="https://github.com/senya-lapush/football-matches-app/assets/99476262/79399a05-7189-4c8c-a08f-71cf3ea29e09" alt="Splash_Screen" width="200"/> 
+<img src="https://github.com/senya-lapush/football-matches-app/assets/99476262/5468da01-0af9-48ba-8080-ef76170c1f6c" alt="Splash_Screen" width="200"/> 
   
 * Matches Screen
 
-<img src="https://github.com/senya-lapush/football-matches-app/assets/99476262/e173e9fe-106c-4a42-8b04-2ca5f6f26108" alt="Matches_Screen" width="200"/> 
+<img src="https://github.com/senya-lapush/football-matches-app/assets/99476262/bbdbfd10-caaa-42ac-aba7-d641d8bc940a" alt="Matches_Screen" width="200"/> 
 
 * Web Screen
-
-<img src="https://github.com/senya-lapush/football-matches-app/assets/99476262/03bf8767-5b6b-488d-94d3-a6e43e9091ea" alt="Web_Screen" width="200"/> 
+  
+<img src="https://github.com/senya-lapush/football-matches-app/assets/99476262/71025d34-b42f-440a-a6d7-f86c34754b55" alt="Web_Screen" width="200"/> 

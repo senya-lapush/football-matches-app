@@ -1,28 +1,32 @@
 package com.example.footballmatches.data.repository
 
-import android.app.Application
 import android.icu.text.SimpleDateFormat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.footballmatches.data.database.AppDatabase
+import com.example.footballmatches.data.database.MatchDao
 import com.example.footballmatches.data.database.MatchMapper
+import com.example.footballmatches.data.models.APIError
 import com.example.footballmatches.data.network.ApiFactory
+import com.example.footballmatches.data.network.ApiService
 import com.example.footballmatches.domain.MatchEntity
 import com.example.footballmatches.domain.NetworkResult
 import com.example.footballmatches.domain.Repository
+import okhttp3.ResponseBody
+import retrofit2.Converter
 import java.util.*
+import javax.inject.Inject
 
-class RepositoryImpl(private val application: Application) : Repository {
+class RepositoryImpl @Inject constructor(
+    private val mapper: MatchMapper,
+    private val matchDao: MatchDao,
+    private val apiService: ApiService,
+    private val errorConverter: Converter<ResponseBody, APIError>
+) : Repository {
 
     private val _matches = MutableLiveData<NetworkResult<List<MatchEntity>>>()
     override val matches: LiveData<NetworkResult<List<MatchEntity>>>
         get() = _matches
-
-    private val matchDao = AppDatabase.getInstance(application).matchDao()
-    private val apiService = ApiFactory.apiService
-    private val errorConverter = ApiFactory.errorConverter
-    private val mapper = MatchMapper()
 
     override suspend fun loadMatches() {
         _matches.postValue(NetworkResult.Loading())
@@ -34,7 +38,6 @@ class RepositoryImpl(private val application: Application) : Repository {
             timezone = TIMEZONE
         )
         if (response.isSuccessful && response.body() != null) {
-            Log.d(javaClass.simpleName.toString(), response.body()!!.toString())
             val matchListDbModel = mapper.mapListMatchDtoToDbModel(response.body()!!)
             matchDao.updateMatches(matchListDbModel)
 
@@ -56,7 +59,8 @@ class RepositoryImpl(private val application: Application) : Repository {
     }
 
     companion object {
-        private const val API_KEY = "3c783e514119908b24b5fde2c97ffcc97eb0443b5938af11f65405e6120c8a91"
+        private const val API_KEY =
+            "3c783e514119908b24b5fde2c97ffcc97eb0443b5938af11f65405e6120c8a91"
         private const val DATE_PATTERN = "yyyy-MM-dd"
         private const val TIMEZONE = "Europe\\/Moscow"
     }

@@ -2,8 +2,9 @@ package com.example.footballmatches.data.database
 
 import com.example.footballmatches.data.models.MatchDto
 import com.example.footballmatches.domain.MatchEntity
+import javax.inject.Inject
 
-class MatchMapper {
+class MatchMapper @Inject constructor() {
 
     private fun mapMatchDtoToDbModel(dto: MatchDto) = MatchDbModel(
         matchId = dto.matchId,

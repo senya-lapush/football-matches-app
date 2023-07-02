@@ -1,5 +1,6 @@
 package com.example.footballmatches.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +11,31 @@ import com.example.footballmatches.R
 import com.example.footballmatches.databinding.FragmentMatchesBinding
 import com.example.footballmatches.domain.NetworkResult
 import com.example.footballmatches.presentation.MatchAdapter
+import com.example.footballmatches.presentation.MatchApp
 import com.example.footballmatches.presentation.MatchViewModel
+import com.example.footballmatches.presentation.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class MatchesFragment : Fragment() {
+
+    private lateinit var viewModel: MatchViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private var _binding: FragmentMatchesBinding? = null
     private val binding: FragmentMatchesBinding
         get() = _binding ?: throw RuntimeException("FragmentMatchesBinding is null")
 
-    private lateinit var viewModel: MatchViewModel
+    private val component by lazy {
+        (requireActivity().application as MatchApp).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +47,7 @@ class MatchesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[MatchViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[MatchViewModel::class.java]
         binding.btnSite.setOnClickListener {
             launchWebFragment()
         }
